@@ -13,7 +13,10 @@ class NoteController extends Controller
      */
     public function index()
     {
-        return Note::with('tags')->where('archived', false)->get();
+        $archived = request()->query('archived', false);
+        return Note::with('tags')
+            ->where('archived', filter_var($archived, FILTER_VALIDATE_BOOLEAN))
+            ->get();
     }
 
     /**
